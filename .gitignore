@@ -1,0 +1,20 @@
+node_modules
+.DS_Store
+*.log
+
+# VitePress 构建产物与缓存
+docs/.vitepress/dist
+docs/.vitepress/cache
+
+# 根目录下 Vite 的临时缓存目录（注意：必须带前导 / 只匹配根目录，
+# 否则会连 docs/.vitepress/ 一起忽略掉，那是站点的真实配置和主题）
+/.vitepress/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# Agent 会话 / 临时工作目录，不入库
+/2026-*/
+.box-agent/
+.box-agent-scratch/

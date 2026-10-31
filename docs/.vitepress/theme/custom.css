@@ -1,0 +1,214 @@
+/* =========================================================
+   VitePress 原生风格 · 主题化
+   =========================================================
+   已移除液态玻璃（backdrop-filter / 折射高光 / 彩虹描边）。
+   这里只做两件事：
+   1. 按主题色覆盖 VitePress 的 brand 变量
+   2. 给自定义区块（卡片、按钮）一套与原生一致的样式
+   ========================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- 主题色 ----------
+     具体色值由 themes.css 按 [data-theme] 提供，
+     这里只作为「没有 JS / 属性未设置」时的兜底。 */
+  --rb-1: #ff375f;
+  --rb-2: #ff9f0a;
+  --rb-3: #ffd60a;
+  --rb-4: #30d158;
+  --rb-5: #40cbe0;
+  --rb-6: #0a84ff;
+  --rb-7: #5e5ce6;
+  --rb-8: #bf5af2;
+  --rb-text: linear-gradient(102deg, #ff5f7a 0%, #ffa53d 25%, #4ade80 50%, #6b6bf0 75%, #ff5f7a 100%);
+  --accent-grad: linear-gradient(150deg, #3b82f6, #6366d8);
+  --accent-glow: rgba(59, 130, 246, 0.5);
+
+  --orb-1: #6f7bf0;
+  --orb-2: #54b6d4;
+  --orb-3: #63c88f;
+  --orb-4: #e0b45f;
+
+  /* 自定义卡片的统一圆角，跟 VitePress 的 --vp-border-radius 对齐 */
+  --hp-radius: 8px;
+  --hp-border: 1px solid var(--vp-c-divider);
+  --hp-card-bg: var(--vp-c-bg-soft);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --hp-border: 1px solid var(--vp-c-divider);
+  --hp-card-bg: var(--vp-c-bg-soft);
+}
+
+/* =========================================================
+   主题切换过渡
+   ========================================================= */
+html {
+  transition: background-color 0.3s ease;
+  overflow-x: hidden;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* =========================================================
+   通用卡片（原 lg-glass，已去掉玻璃材质）
+   保留类名以免改动大量模板，但视觉完全走 VitePress 原生
+   ========================================================= */
+.lg-glass {
+  background: var(--hp-card-bg);
+  border: var(--hp-border);
+  border-radius: var(--hp-radius);
+}
+
+/* =========================================================
+   可交互卡片：原生 hover（浅灰底 + 边框加深）
+   不再有缩放、鼓起、彩虹描边
+   ========================================================= */
+.lg-glass--interactive {
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.lg-glass--interactive:hover {
+  background-color: var(--vp-c-default-soft);
+  border-color: var(--vp-c-brand-2);
+}
+
+.lg-glass--interactive:active {
+  background-color: var(--vp-c-default-soft);
+}
+
+/* =========================================================
+   导航栏右侧控件组（主题配色 + 日夜模式）
+   ========================================================= */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+@media (max-width: 639px) {
+  .nav-actions {
+    display: none;
+  }
+}
+
+/* =========================================================
+   隐藏 VitePress 内置的两态外观开关
+   （由 ThemeSwitch 三态组件替代：浅色 / 深色 / 跟随系统）
+   ========================================================= */
+.VPSwitchAppearance,
+button.VPSwitchAppearance,
+.VPNavBarAppearance {
+  display: none !important;
+}
+
+/* 窄屏收起自定义控件时，交回内置两态开关 */
+@media (max-width: 639px) {
+  .VPSwitchAppearance,
+  button.VPSwitchAppearance,
+  .VPNavBarAppearance {
+    display: flex !important;
+  }
+}
+
+/* =========================================================
+   文档页细节：保持原生，只做轻微圆角统一
+   ========================================================= */
+.vp-doc div[class*='language-'] {
+  border-radius: 8px;
+}
+
+.vp-doc table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* =========================================================
+   站内搜索弹窗：跟随日夜模式
+   VitePress 的搜索弹窗不继承站点背景变量，深色下会露出浅色面板
+   ========================================================= */
+.VPLocalSearchBox .shell {
+  border-radius: 12px !important;
+  background: var(--vp-c-bg-elv) !important;
+}
+
+.VPLocalSearchBox .search-input {
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPLocalSearchBox .result {
+  border: 1px solid transparent;
+}
+
+.VPLocalSearchBox .result.selected {
+  background: var(--vp-c-default-soft) !important;
+  border-color: var(--vp-c-divider) !important;
+}
+
+.VPLocalSearchBox .title,
+.VPLocalSearchBox .titles {
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPLocalSearchBox .excerpt {
+  color: var(--vp-c-text-2) !important;
+}
+
+.VPLocalSearchBox .footer {
+  border-top: 1px solid var(--vp-c-divider) !important;
+  background: transparent !important;
+}
+
+.VPLocalSearchBox .footer .keys,
+.VPLocalSearchBox .footer span {
+  color: var(--vp-c-text-3) !important;
+}
+
+.VPLocalSearchBox {
+  --vp-local-search-bg: var(--vp-c-bg-elv);
+}
+
+/* =========================================================
+   宽版正文页（API 站点、导航、博客列表）
+   =========================================================
+   VitePress 默认把 .VPDoc .container 锁在 992px、
+   content-container 再扣掉 sidebar / aside，正文只剩 600 多 px，
+   卡片网格只能排两列。
+
+   这几页是卡片墙，不是长文阅读，所以放宽容器。
+   注意：sidebar 与 aside 都保留（它们是页面导航，不能砍），
+   只把容器上限抬高，让剩余空间足够排多列。
+   ========================================================= */
+@media (min-width: 960px) {
+  .page-wide .VPDoc .container {
+    max-width: 1720px !important;
+  }
+
+  /* 真正卡住宽度的是这一层：默认 752px，比 container 更早生效 */
+  .page-wide .VPDoc .content {
+    max-width: none !important;
+  }
+
+  /* 有右侧大纲时 VitePress 会预留 272px，正文容器要显式放开 */
+  .page-wide .VPDoc.has-aside .content-container {
+    max-width: none !important;
+  }
+
+  .page-wide .VPDoc .content-container {
+    max-width: none !important;
+  }
+}
+
+/* 正文内容本身也放宽，避免卡片被 .vp-doc 的阅读宽度限制 */
+.page-wide .vp-doc {
+  max-width: none;
+}
