@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { orbitTech } from '../../profile'
-import { withBase } from 'vitepress'
+import { pageUrl } from '../url'
 
 /**
  * 技术栈环绕球体
@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
         <span class="orbit__chip">
           <img
             class="orbit__icon"
-            :src="withBase(`/img/tech/${p.slug}.svg`)"
+            :src="pageUrl(`/img/tech/${p.slug}.svg`)"
             :alt="p.name"
             loading="lazy"
             draggable="false"

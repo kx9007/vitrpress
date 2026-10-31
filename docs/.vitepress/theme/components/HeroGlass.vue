@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { withBase } from 'vitepress'
+import { pageUrl } from '../url'
 
 const heroRef = ref<HTMLElement | null>(null)
 let raf = 0
@@ -62,7 +62,7 @@ onBeforeUnmount(() => {
           </p>
 
           <div class="hero__actions">
-            <a class="btn btn--primary" :href="withBase('/projects')">
+            <a class="btn btn--primary" :href="pageUrl('/projects')">
               <span>看看我的项目</span>
               <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
                 <path
@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
                 />
               </svg>
             </a>
-            <a class="btn btn--ghost" :href="withBase('/blog/')">
+            <a class="btn btn--ghost" :href="pageUrl('/blog/')">
               <span>读读博客</span>
             </a>
           </div>

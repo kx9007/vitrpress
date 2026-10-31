@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build:edgeone",
+  "installCommand": "npm install",
+  "outputDirectory": "docs/.vitepress/dist",
+  "nodeVersion": "20.18.0"
+}

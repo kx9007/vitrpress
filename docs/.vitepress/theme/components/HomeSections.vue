@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
-import { withBase } from 'vitepress'
+import { pageUrl } from '../url'
 import { profile, stats, skills, projects, posts, contacts } from '../../profile'
 import ContactIcon from './ContactIcon.vue'
 import TechOrbit from './TechOrbit.vue'
@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
           <span class="home-section__dot" />
           技术栈
         </h2>
-        <a class="home-section__more" :href="withBase('/about')">了解更多 →</a>
+        <a class="home-section__more" :href="pageUrl('/about')">了解更多 →</a>
       </div>
       <!--
         技术栈用环绕球体呈现：图标沿球面自转，
@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
           <span class="home-section__dot" />
           精选项目
         </h2>
-        <a class="home-section__more" :href="withBase('/projects')">全部项目 →</a>
+        <a class="home-section__more" :href="pageUrl('/projects')">全部项目 →</a>
       </div>
       <div class="cards">
         <a
@@ -154,7 +154,7 @@ onBeforeUnmount(() => {
           <span class="home-section__dot" />
           最近写作
         </h2>
-        <a class="home-section__more" :href="withBase('/blog/')">全部文章 →</a>
+        <a class="home-section__more" :href="pageUrl('/blog/')">全部文章 →</a>
       </div>
       <div class="posts lg-glass">
         <a v-for="post in posts" :key="post.link" class="post" :href="post.link">

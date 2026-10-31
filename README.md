@@ -669,3 +669,32 @@ z' = -x·sinθ + z·cosθ
 
 - **Vercel / Netlify**：构建命令 `npm run build`，输出目录 `docs/.vitepress/dist`
 - **对象存储 / 自己的服务器**：把 dist 目录内容整个上传即可
+
+### EdgeOne Pages
+
+同一份代码发两个平台时，唯一需要区别对待的是 **base 路径** 和 **cleanUrls**：
+
+| 平台 | 访问地址 | base | cleanUrls |
+| --- | --- | --- | --- |
+| GitHub Pages（项目页） | `https://<user>.github.io/vitrpress/` | `/vitrpress/` | 开（链接无 `.html`） |
+| EdgeOne Pages | `https://xxx.edgeone.app/` | `/` | 关（链接带 `.html`） |
+
+原因是 EdgeOne 分配的是**根域名**，若沿用 `/vitrpress/` 前缀，资源会全部 404；
+而它也不保证支持"无后缀访问"，`/about` 会 404，必须落到 `/about.html`。
+
+因此构建分两条入口，源码只有一份：
+
+```bash
+npm run build          # GitHub Pages（默认，DEPLOY_TARGET=github）
+npm run build:edgeone  # EdgeOne Pages（DEPLOY_TARGET=edgeone）
+```
+
+EdgeOne 控制台的构建配置（或直接用仓库里的 `edgeone.json` 自动读取）：
+
+- 构建命令：`npm run build:edgeone`
+- 输出目录：`docs/.vitepress/dist`
+- Node 版本：20.18.0
+
+> 组件里的站内链接统一走 `docs/.vitepress/theme/url.ts` 的 `pageUrl()`，
+> 它会按当前构建目标自动决定要不要补 `.html`。不要在组件里硬编码 `href="/xxx"`。
+

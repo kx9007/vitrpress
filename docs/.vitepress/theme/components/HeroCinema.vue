@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, computed } from 'vue'
-import { withBase } from 'vitepress'
+import { pageUrl } from '../url'
 import { profile } from '../../profile'
 import RainbowFan from './RainbowFan.vue'
 
@@ -339,7 +339,7 @@ const showCanvas = computed(() => videoFailed.value || !videoReady.value)
       </p>
 
       <div class="cinema__actions">
-        <a class="cbtn cbtn--solid" :href="withBase('/projects')">
+        <a class="cbtn cbtn--solid" :href="pageUrl('/projects')">
           看看我的项目
           <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
             <path
@@ -352,7 +352,7 @@ const showCanvas = computed(() => videoFailed.value || !videoReady.value)
             />
           </svg>
         </a>
-        <a class="cbtn cbtn--ghost" :href="withBase('/blog/')">读读博客</a>
+        <a class="cbtn cbtn--ghost" :href="pageUrl('/blog/')">读读博客</a>
       </div>
 
       <div class="cinema__meta">

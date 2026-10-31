@@ -1,13 +1,37 @@
 import { defineConfig } from 'vitepress'
 import { site, nav, socialLinks, profile, sidebar } from './profile'
 
+/**
+ * 部署目标 —— 同一份代码要发到两个平台，它们的环境要求不同
+ *
+ *   pnpm build:edgeone / npm run build:edgeone
+ *     根路径（base '/'）、保留 .html（cleanUrls 关闭）
+ *     EdgeOne Pages 分配的是根域名，且不保证支持无后缀访问
+ *
+ *   默认（不设 DEPLOY_TARGET，或设为 github）
+ *     子路径 /vitrpress/、cleanUrls 开启
+ *     对应 https://kx9007.github.io/vitrpress/
+ */
+const target = process.env.DEPLOY_TARGET ?? 'github'
+const isEdgeOne = target === 'edgeone'
+
+const base = isEdgeOne ? '/' : site.base
+const cleanUrls = !isEdgeOne
+
 export default defineConfig({
   lang: site.lang,
   title: site.title,
   description: site.description,
-  base: site.base,
-  cleanUrls: true,
+  base,
+  cleanUrls,
   lastUpdated: true,
+
+  vite: {
+    // 供 theme/url.ts 判断是否需要在链接里补 .html
+    define: {
+      __CLEAN_URLS__: JSON.stringify(cleanUrls),
+    },
+  },
 
   head: [
     [
@@ -16,7 +40,7 @@ export default defineConfig({
       // 在 CSS 生效前就把 data-theme 打上，避免首屏用默认色再跳变
       `(function(){try{var t=localStorage.getItem('site-theme-color');var ok=['rainbow','green','purple','blue','amber','red'];document.documentElement.setAttribute('data-theme',t&&ok.indexOf(t)>-1?t:'rainbow')}catch(e){document.documentElement.setAttribute('data-theme','rainbow')}})()`,
     ],
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${site.base}favicon.svg` }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['meta', { name: 'theme-color', content: '#6366f1' }],
     ['meta', { name: 'author', content: profile.name }],
     ['meta', { property: 'og:type', content: 'website' }],
